@@ -8,7 +8,7 @@ export class Forms extends Component {
     super(props);
     this.state = {
       city: '',
-      data: {},
+      dataCity: {},
       show: false,
       error: '',
       alert: false,
@@ -24,9 +24,9 @@ export class Forms extends Component {
     e.preventDefault();
     try {
       const axiosResponse = await axios.get(`https://us1.locationiq.com/v1/search.php?key=pk.88bdc34a015f169659efd4fa8583736c&q=${this.state.city}&format=json`)
-      const axiosRes = await axios.get(`http://localhost:8000/weather?lon=${this.state.data.lon}&lat=${this.state.data.lat}&searchQuery=${this.state.city}`);
+      const axiosRes = await axios.get(`http://localhost:8000/weather?lon=${this.state.dataCity.lon}&lat=${this.state.dataCity.lat}&searchQuery=${this.state.city}`);
       this.setState({
-        data: axiosResponse.data[0],
+        dataCity: axiosResponse.data[0],
         show: true,
         alert:false,
         weatherData: axiosRes.data
@@ -57,11 +57,11 @@ export class Forms extends Component {
         {this.state.show &&
           <div>
             <p>
-              {this.state.data.display_name}
+              {this.state.dataCity.display_name}
             </p>
-            <Image src={`https://maps.locationiq.com/v3/staticmap?key=pk.88bdc34a015f169659efd4fa8583736c&center=${this.state.data.lat},${this.state.data.lon}&zoom=14`}/>
+            <Image src={`https://maps.locationiq.com/v3/staticmap?key=pk.88bdc34a015f169659efd4fa8583736c&center=${this.state.dataCity.lat},${this.state.dataCity.lon}&zoom=14`}/>
             <p>
-              {`lat: ${this.state.data.lat}, lon: ${this.state.data.lon}`}
+              {`lat: ${this.state.dataCity.lat}, lon: ${this.state.dataCity.lon}`}
             </p>
           </div>
         }
