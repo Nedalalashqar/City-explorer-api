@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {Form , Button,Image} from 'react-bootstrap';
+import MasErorr from './MasErorr'
 import Weather from './Weather';
 
 export class Forms extends Component {
@@ -12,7 +13,8 @@ export class Forms extends Component {
       show: false,
       error: '',
       alert: false,
-      weatherData: []
+      weatherData: [],
+      movies:[]
     }
   }
   nameHandler = (e) => {
@@ -23,15 +25,33 @@ export class Forms extends Component {
   submitData = async (e) => {
     e.preventDefault();
     try {
-      const axiosResponse = await axios.get(`https://us1.locationiq.com/v1/search.php?key=pk.88bdc34a015f169659efd4fa8583736c&q=${this.state.city}&format=json`)
-      const axiosRes = await axios.get(`http://localhost:8000/weather?lon=${this.state.dataCity.lon}&lat=${this.state.dataCity.lat}&searchQuery=${this.state.city}`);
-      this.setState({
-        dataCity: axiosResponse.data[0],
-        show: true,
-        alert:false,
-        weatherData: axiosRes.data
-
+      const axiosResponse = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.city}&format=json`).then(response =>{
+        this.setState({
+          dataCity: response.data[0],
+          show: true,
+          alert:false,
+  
+        })
       })
+      
+
+      const axiosWeather = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/weather?lon=${this.state.dataCity.lon}&lat=${this.state.dataCity.lat}&searchQuery=${this.state.city}`).then(response =>{
+        this.setState({
+          weatherData: response.data,
+          show: true,
+          alert:false,
+        })
+      })
+      
+
+      const axiosMovies = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/movies?city_name=${this.state.city}`).then(response =>{
+        this.setState({
+          moveis: response.data,
+          show: true,
+          alert:false,
+      })
+      })
+
     } catch (error) {
       this.setState({
         errot: error.message,
@@ -44,7 +64,9 @@ export class Forms extends Component {
   render() {
     return (
       <div>
-        
+        <MasErorr 
+          alert={this.state.alert}
+        />
         <Form onSubmit={this.submitData}>
           <Form.Group className="mb-3">
             <Form.Label>City Name</Form.Label>
@@ -55,15 +77,13 @@ export class Forms extends Component {
           </Button>
         </Form>
         {this.state.show &&
-          <div>
-            <p>
-              {this.state.dataCity.display_name}
-            </p>
-            <Image src={`https://maps.locationiq.com/v3/staticmap?key=pk.88bdc34a015f169659efd4fa8583736c&center=${this.state.dataCity.lat},${this.state.dataCity.lon}&zoom=14`}/>
-            <p>
-              {`lat: ${this.state.dataCity.lat}, lon: ${this.state.dataCity.lon}`}
-            </p>
-          </div>
+          this.state.movies.map((mov ,idx)=>{
+            return(
+              <h3>Title Movies</h3>,
+              <h3>Votes</h3>,
+              <Image src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.dataCity.lat},${this.state.dataCity.lon}&zoom=14`}/>
+            )
+          })
         }
         {
          this.state.weatherData.map(weatherData =>{
