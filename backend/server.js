@@ -16,21 +16,7 @@ app.get('/' ,(req ,res) => {res.send('hello world')});
 app.get('/weather' , (req,res) =>{
   let lat =req.query.lat
   let lon =req.query.lon
-//   let searchQuery=req.query.searchQuery
-//   try{
-//     let findDa=()=>{
-//         let city =weather.find((city,idx)=>{
-//             return (city.city_name.toLowerCase() === searchQuery.toLowerCase() &&city.lat === Number(lat) && city.lon === Number(lon))
-//         })
-//         return city.data.map(item =>{
-//             return new Forecast(item)
-//         })
-//     }
-    
-//   res.json(findDa());
-//   }catch(error){
-//       res.status(500).send('something went worong')
-//   }
+
 
 let weatherRes = axios.get(`http://api.weatherbit.io/v2.0/forecast/daily?key=${WEATHER_BIT_API}&lat${lat}&lon=${lon}`).then(response =>{
     let weather=response.date
