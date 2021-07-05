@@ -1,17 +1,18 @@
 const express = require('express');
 const weather =require('./data/weather.json');
+const movies =require('./data/movies.json')
 const app = express();
 const cors =require('cors');
 const axios=require('axios');
 const { response, query } = require('express');
 require('dotenv').config();
+const weather = require('./controller/weather');
 const PORT = process.env.PORT;
 const MOVIES_API_KEY=process.env.MOVIES_API_KEY;
-const WEATHER_BIT_API=process.env.WEATHER_BIT_API
-
 app.use(cors());
 
 app.get('/' ,(req ,res) => {res.send('hello world')});
+
 
 app.get('/weather' , (req,res) =>{
   let lat =req.query.lat
@@ -46,14 +47,8 @@ class Forecast{
     }
 }
 
-class Movies{
-    constructor(moviesData){
-        this.title=moviesData.original_title;
-        this.votes=moviesData.vote_count
-        this.img='http://image.tmdb.org/t/p/w342'+moviesData.poster_path;
-        
-    }
-  }
+
+app.get('/movies', movieController)
 
 app.listen(PORT, () =>{
      console.log(`starting at ${PORT}`)

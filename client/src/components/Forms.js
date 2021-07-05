@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Form , Button,Image} from 'react-bootstrap';
 import MasErorr from './MasErorr'
-import Weather from './Weather';
+import WeatherDay from './WeatherDay';
+import Movie from './Movie';
 
 export class Forms extends Component {
   constructor(props) {
@@ -77,19 +78,22 @@ export class Forms extends Component {
           </Button>
         </Form>
         {this.state.show &&
-          this.state.movies.map((mov ,idx)=>{
-            return(
-              <h3>Title Movies</h3>,
-              <h3>Votes</h3>,
-              <Image src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.dataCity.lat},${this.state.dataCity.lon}&zoom=14`}/>
-            )
-          })
+          <div>
+          <p>
+            {this.state.data.display_name}
+          </p>
+          <Image src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.data.lat},${this.state.data.lon}&zoom=14`}/>
+          <p>
+            {`lat: ${this.state.data.lat}, lon: ${this.state.data.lon}`}
+          </p>
+        </div>
         }
-        {
-         this.state.weatherData.map(weatherData =>{
-           return <Weather desc ={weatherData.description} date ={weatherData.date}/>
-         })
-        }
+       <WeatherDay
+          weatherData={this.state.weatherData}
+        />
+        <Movie
+          movies={this.state.movies}
+        />
       </div>
     )
   }
