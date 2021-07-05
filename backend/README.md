@@ -1,9 +1,5 @@
 # city-explorer-api
 ![ ](/home/nedalalashqar/proj/city-explorer-api/img/lab7lat.png)
-
-PORT=8000
-WEATHER_BIT_API=1fd1cf46415b4c2c85f04920db6aefef
-MOVIES_API_KEY=34cc731a97c2ad724c05cdf5b11f62ea
 # city-explorer-api
 
 **Author**: Nedal Alashqar
