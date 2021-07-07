@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Alert from "react-bootstrap/Alert";
 
 export class MasErorr  extends Component {
+
+
   render() {
     return (
       <Alert variant="danger">
@@ -12,4 +14,6 @@ export class MasErorr  extends Component {
   }
 }
 
+
 export default MasErorr ;
+

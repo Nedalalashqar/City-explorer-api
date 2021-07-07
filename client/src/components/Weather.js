@@ -5,16 +5,20 @@ export class Weather extends Component {
   render() {
     return (
       <div>
-        {this.props.weatherData.data.map((value) => {
-          return (
-            <ListGroup style={{ width: "25%", textAlign: "center" }}>
-              <ListGroup.Item style={{ backgroundColor: "#77ACF1", color: "white" }}>
-                <p>DATE: {value.date}</p>
-                <p>DESCRIPTION: {value.description}</p>
+
+        <h1 style={{ textAlign: "center" }}> WEATHER DETAILS</h1>
+        <ListGroup style={{ width: "25%", textAlign: "center" }}>
+          {this.props.weatherData.map((value, idx) => {
+            return (
+              <ListGroup.Item key={idx} style={{ backgroundColor: "#77ACF1", color: "white", marginBottom: "5px" }}>
+                <span>DATE: {value.date}</span>
+                <br />
+                <span>DESCRIPTION: {value.description}</span>
               </ListGroup.Item>
-            </ListGroup>
-          );
-        })}
+            );
+          })}
+        </ListGroup>
+
       </div>
     );
   }

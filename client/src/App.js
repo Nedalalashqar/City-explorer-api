@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import FormData from "./components/FormData";
-import MapAndData from "./components/MapAndData";
-import AlertMsg from "./components/AlertMsg";
+
+import Forms from "./components/Forms";
+import Map from "./components/Map";
+import MasErorr  from "./components/MasErorr ";
 import Weather from "./components/Weather";
+import Movie from "./components/Movie";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
@@ -11,11 +14,16 @@ export class App extends Component {
     super(props);
     this.state = {
       city: "",
-      cityData: {},
+
+      cityData: [],
       weatherData: [],
+      lat: "",
+      lon: "",
       magError: "",
       showImg: false,
       showAlert: false,
+      movies: [],
+
     };
   }
 
@@ -25,22 +33,37 @@ export class App extends Component {
     });
   };
 
-  getCityData  = async (e) => {
+
+  getCityData = async (e) => {
     e.preventDefault();
-
     try {
-      const axiosResponse = await axios.get(
-        `https://us1.locationiq.com/v1/search.php?key=pk.88bdc34a015f169659efd4fa8583736c&city=${this.state.city}&format=json`
-      );
+      await axios
+        .get(
+          `https://us1.locationiq.com/v1/search.php?key=pk.88bdc34a015f169659efd4fa8583736c&city=${this.state.city}&format=json`
+        )
+        .then((axiosResponse) => {
+          this.setState({
+            cityData: axiosResponse.data[0],
+            lat: axiosResponse.data[0].lat,
+            lon: axiosResponse.data[0].lon,
+          });
+          axios
+            .get(`http://localhost:8000/weather?lat=${this.state.lat}&lon=${this.state.lon}`)
+            .then((weatherResponse) => {
+              this.setState({
+                weatherData: weatherResponse.data,
+                showImg: true,
+                showAlert: false,
+              });
+            });
+          axios.get(`http://localhost:8000/movies?city=${this.state.city}`).then((moviesResponse) => {
+            this.setState({
+              movies: moviesResponse.data,
+            });
+            // console.log(moviesResponse.data);
+          });
+        });
 
-      const myApiRes = await axios.get(`${process.env.REACT_APP_URL}/weather`);
-      console.log(myApiRes);
-      this.setState({
-        cityData: axiosResponse.data[0],
-        weatherData: myApiRes,
-        showImg: true,
-        showAlert: false,
-      });
     } catch (error) {
       this.setState({
         magError: error.message,
@@ -52,14 +75,17 @@ export class App extends Component {
   render() {
     return (
       <div>
-        {this.state.showAlert && <AlertMsg magError={this.state.magError} />}
 
-        <FormData getCityName={this.getCityName} getCityData={this.getCityData} />
+        {this.state.showAlert && <MasErorr  magError={this.state.magError} />}
+        <Forms getCityName={this.getCityName} getCityData={this.getCityData} />
 
         {this.state.showImg && (
           <div>
             <Map cityData={this.state.cityData} />
             <Weather weatherData={this.state.weatherData} />
+
+            <Movie movies={this.state.movies} />
+
           </div>
         )}
       </div>
