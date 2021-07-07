@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+
 import Forms from "./components/Forms";
 import Map from "./components/Map";
 import MasErorr  from "./components/MasErorr ";
 import Weather from "./components/Weather";
 import Movie from "./components/Movie";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
@@ -12,6 +14,7 @@ export class App extends Component {
     super(props);
     this.state = {
       city: "",
+
       cityData: [],
       weatherData: [],
       lat: "",
@@ -20,6 +23,7 @@ export class App extends Component {
       showImg: false,
       showAlert: false,
       movies: [],
+
     };
   }
 
@@ -28,6 +32,7 @@ export class App extends Component {
       city: e.target.value,
     });
   };
+
 
   getCityData = async (e) => {
     e.preventDefault();
@@ -58,6 +63,7 @@ export class App extends Component {
             // console.log(moviesResponse.data);
           });
         });
+
     } catch (error) {
       this.setState({
         magError: error.message,
@@ -69,17 +75,22 @@ export class App extends Component {
   render() {
     return (
       <div>
+
         {this.state.showAlert && <MasErorr  magError={this.state.magError} />}
         <Forms getCityName={this.getCityName} getCityData={this.getCityData} />
+
         {this.state.showImg && (
           <div>
             <Map cityData={this.state.cityData} />
             <Weather weatherData={this.state.weatherData} />
+
             <Movie movies={this.state.movies} />
+
           </div>
         )}
       </div>
     );
   }
 }
+
 export default App;

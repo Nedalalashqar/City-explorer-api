@@ -1,19 +1,16 @@
 const express = require("express"); // require the express package
 const app = express(); // initialize your express app instance
-// const weatherData = require("./data/weather.json");
-require("dotenv").config();
-const PORT = process.env.PORT;
-const WEATHER_BIT_KEY = process.env.WEATHER_BIT_KEY;
-const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
+
+const weatherData = require("./data/weather.json");
 const cors = require("cors");
-const axios = require("axios");
 
 app.use(cors()); // after you initialize your express app instance
+require("dotenv").config();
 
-
-app.use(cors());
+const PORT = process.env.PORT;
 
 app.get('/' ,(req ,res) => {res.send('hello world')});
+
 
 
 app.get('/weather' , (req,res) =>{
@@ -62,6 +59,7 @@ app.get('/movies' , (req , res)=>{
     } else {
         res.send("please provide the City name");
     }
+
 });
 //     let moviesRes =axios.get(`https://api.themoviedb.org/3/search/movie?api_key${MOVIES_API_KEY}&query=${city}`).then(response =>{
 //       let movies=response.data.results;
@@ -72,10 +70,10 @@ app.get('/movies' , (req , res)=>{
 //     }).catch(errer=>res.send(error.message));
 // })
 
-class Forecast{
-    constructor(weatherData){
-        this.date=weatherData.valid_date
-        this.description=weatherData.weather.description
+class Weather {
+    constructor(weatherArr) {
+        this.description = weatherArr.weather.description;
+        this.date = weatherArr.valid_date;
     }
 }
 

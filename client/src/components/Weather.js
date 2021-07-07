@@ -5,6 +5,7 @@ export class Weather extends Component {
   render() {
     return (
       <div>
+
         <h1 style={{ textAlign: "center" }}> WEATHER DETAILS</h1>
         <ListGroup style={{ width: "25%", textAlign: "center" }}>
           {this.props.weatherData.map((value, idx) => {
@@ -17,6 +18,7 @@ export class Weather extends Component {
             );
           })}
         </ListGroup>
+
       </div>
     );
   }
