@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require("express"); // require the express package
 const app = express(); // initialize your express app instance
 // const weatherData = require("./data/weather.json");
@@ -11,19 +10,7 @@ const axios = require("axios");
 
 app.use(cors()); // after you initialize your express app instance
 
-=======
-const express = require('express');
-const weather =require('./data/weather.json');
-const movies =require('./data/movies.json')
-const app = express();
-const cors =require('cors');
-const axios=require('axios');
-const { response, query } = require('express');
-require('dotenv').config();
-const weather = require('./controller/weather');
-const PORT = process.env.PORT;
-const MOVIES_API_KEY=process.env.MOVIES_API_KEY;
->>>>>>> ad43b31ed251b862061c625e782afd96626b602e
+
 app.use(cors());
 
 app.get('/' ,(req ,res) => {res.send('hello world')});
@@ -92,22 +79,19 @@ class Forecast{
     }
 }
 
-<<<<<<< HEAD
+
 class Movies{
     constructor(moviesData){
         this.title=moviesData.original_title;
         this.votes=moviesData.vote_count
-        this.img='http://image.tmdb.org/t/p/w342'+moviesData.poster_path;
+        this.image_url = moviesData.poster_path;
         this.overview = moviesData.overview;
         this.average_vote = moviesData.vote_average;
         this.popularity = moviesData.popularity;
         this.released_on = moviesData.release_date;
     }
   }
-=======
 
-app.get('/movies', movieController)
->>>>>>> ad43b31ed251b862061c625e782afd96626b602e
 
 app.listen(PORT, () =>{
      console.log(`starting at ${PORT}`)

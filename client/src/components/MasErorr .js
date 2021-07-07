@@ -1,17 +1,15 @@
-import React, { Component } from 'react'
-import Alert from 'react-bootstrap/Alert'
+import React, { Component } from "react";
+import Alert from "react-bootstrap/Alert";
 
-export class MasErorr  extends Component {
-    render() {
-        return (
-            <div>
-                {this.props.alert &&
-                    <Alert variant={'danger'}>
-                        Error: 'Wrong Input!'
-                    </Alert>
-                }
-            </div>
-        )
-    }
+export class AlertMsg extends Component {
+  render() {
+    return (
+      <Alert variant="danger">
+        <Alert.Heading>Error</Alert.Heading>
+        <p>{this.props.msgError}</p>
+      </Alert>
+    );
+  }
 }
-export default MasErorr 
+
+export default AlertMsg;
